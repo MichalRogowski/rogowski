@@ -6,14 +6,25 @@
     <description>Recent content on Michal Rogowski</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 05 Jun 2021 16:54:24 +0200</lastBuildDate><atom:link href="https://rogowski.page/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 05 Jun 2021 23:33:38 +0200</lastBuildDate><atom:link href="https://rogowski.page/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>My First Post</title>
-      <link>https://rogowski.page/posts/my-first-post/</link>
+      <title>Why sign-in with apple may take you more than 5 minutes and how it works?</title>
+      <link>https://rogowski.page/posts/sign-in-with-apple/</link>
+      <pubDate>Sat, 05 Jun 2021 23:33:38 +0200</pubDate>
+      
+      <guid>https://rogowski.page/posts/sign-in-with-apple/</guid>
+      <description>I saw a lot of articles why Sign In With Apple (SIWA) is - great, easy etc. Only few of them were showing how difficult it may be and this is one of those. I will list all articles that I found about other problems at the end of the article. I described it from iOS perspective.
+ BTW! If you like my articles please follow me on Twitter Thanks!</description>
+    </item>
+    
+    <item>
+      <title>Grow as a Professional Software Developer</title>
+      <link>https://rogowski.page/posts/grow-as-professional/</link>
       <pubDate>Sat, 05 Jun 2021 16:54:24 +0200</pubDate>
       
-      <guid>https://rogowski.page/posts/my-first-post/</guid>
-      <description></description>
+      <guid>https://rogowski.page/posts/grow-as-professional/</guid>
+      <description>When I stared my journey as an iOS Developer, it was super easy to find things to learn - to be honest it was hard to find things I knew and I felt confident about. Nonetheless after a year or two there came a dangerous moment of routine: my level of knowledge let me do my job and give a phoney 😱 feeling of being a professional.
+Luckily for me a wake-up call came when I was talking with some other iOS Developer and he started to talk about things that I should be familiar with - but I didn’t have a clue what he was talking about.</description>
     </item>
     
   </channel>

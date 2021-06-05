@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michal Rogowski</title>
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    
+    <link rel="stylesheet" href="https://rogowski.page/style.main.min.dce72a69b1e9a445730e884b53442cbfc4c12aa7aa07623dbd1e385ab6488272.css" integrity="sha256-3OcqabHppEVzDohLU0Qsv8TBKqeqB2I9vR44WrZIgnI=" >
+</head>
+<body>
+    <div class="content">     
+        <div class="content__left_to_right">
+            <h1 class="mainHeading"><a href="https://rogowski.page/"><span>Home</span></a></h1>
+            <div class="section__heading">
+                <h2 class="section__title">Why sign-in with apple may take you more than 5 minutes and how it works?</h2>
+            </div>
+            
+            <div class="post_body">
+                <h3 id="nbsp"> </h3>
+<p>I saw a lot of articles why Sign In With Apple (SIWA) is - great, easy etc. Only few of them were showing how difficult it may be and this is one of those. I will list all articles that I found about other problems at the end of the article. I described it from iOS perspective.</p>
+<h3 id="nbsp-1"> </h3>
+<p>BTW! If you like my articles please follow me on <a href="https://twitter.com/michrogowski">Twitter</a>  Thanks!</p>
+<h3 id="nbsp-2"> </h3>
+<h2 id="sign-in-with-apple--siwa">Sign In With Apple 🍏 (SIWA)</h2>
+<p>UML diagram below shows register / login flow
+<img src="https://thepracticaldev.s3.amazonaws.com/i/tnslve4034o1py47ha08.jpg" alt="SIWA-UML"></p>
+<ol>
+<li><strong>SIWA button register / login</strong> - Most important part of request is scope. For test purposes I’ve added email and full name to scope. When pressing button for the first time user is able to decide, does he want to use real email, or “fake” which will forward all messages to and from user.</li>
+<li><strong>ASAuthorizationAppleIDCredential</strong> - Apple <a href="https://developer.apple.com/documentation/authenticationservices/asauthorizationappleidcredential">Documentation</a>  describes it as <em>A credential that results from a successful Apple ID authentication.</em> You can also check all fields that are returned. Most important for us are:
+<ul>
+<li><code>var authorizationCode: Data?</code> - <em>A short-lived token used by your app for proof of authorization when interacting with the app’s server counterpart.</em></li>
+<li><code>var identityToken: Data?</code> - <em>A JSON Web Token (JWT) that securely communicates information about the user to your app.</em></li>
+<li><code>var user: String</code> - <em>An identifier associated with the authenticated user.</em></li>
+<li><code>var fullName: PersonNameComponents?</code> - <em>The user’s name.</em></li>
+<li><code>var email: String?</code>- <em>The user’s email address.</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="nbsp-3"> </h3>
+<p>Token authorisation code on the diagram above is <code>authorizationCode</code> from this response - we have to send it to our API Server. Now our server will be able to use it to get JWT as response from <code>Apple /token</code> servers.</p>
+<h3 id="nbsp-4"> </h3>
+<p>To decode JWT (identityToken) use <a href="https://jwt.io">jwt.io</a> - all validation and debugging is done on the client side👌. My <em>register</em> JWT looks like</p>
+<h4 id="header">HEADER</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;kid&#34;</span>: <span style="color:#e6db74">&#34;AIDOPK1&#34;</span>,
+  <span style="color:#f92672">&#34;alg&#34;</span>: <span style="color:#e6db74">&#34;RS256&#34;</span>
+}
+</code></pre></div><h4 id="payload">PAYLOAD</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;iss&#34;</span>: <span style="color:#e6db74">&#34;https://appleid.apple.com&#34;</span>,
+  <span style="color:#f92672">&#34;aud&#34;</span>: <span style="color:#e6db74">&#34;com.myapp.app&#34;</span>,
+  <span style="color:#f92672">&#34;exp&#34;</span>: <span style="color:#ae81ff">1571516448</span>,
+  <span style="color:#f92672">&#34;iat&#34;</span>: <span style="color:#ae81ff">1571515848</span>,
+  <span style="color:#f92672">&#34;sub&#34;</span>: <span style="color:#e6db74">&#34;222222.11111111111111111111111111111111.3334&#34;</span>,
+  <span style="color:#f92672">&#34;c_hash&#34;</span>: <span style="color:#e6db74">&#34;9C1Y7-lPwAXGTrrAbciP1T&#34;</span>,
+  <span style="color:#f92672">&#34;email&#34;</span>: <span style="color:#e6db74">&#34;hap41ok9pl@privaterelay.appleid.com&#34;</span>,
+  <span style="color:#f92672">&#34;email_verified&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>,
+  <span style="color:#f92672">&#34;is_private_email&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>,
+  <span style="color:#f92672">&#34;auth_time&#34;</span>: <span style="color:#ae81ff">1571515848</span>
+}
+</code></pre></div><h3 id="nbsp-5"> </h3>
+<p>Same JWT will be provided to API Server in step 5 but with different timestamps and <em>hash</em> key and value. <em>sub</em> is my user id associated with this application, <em>aud</em> is bundle of the application. <em>hash</em>, <em>kid</em> and <em>alg</em> are needed to confirm that this JWT was created by apple, and confirm it with Apple <a href="https://appleid.apple.com/auth/keys">public key</a> it will be done in step 6 by API server.
+3. <strong>Register / Login</strong> - We are sending our <code>authorizationCode</code> as part of our request.
+4. <strong>/token</strong> - thanks to <code>authorizationCode</code> API Server is able to send <a href="https://appleid.apple.com/auth/token">/token</a> request with parameters:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+	<span style="color:#960050;background-color:#1e0010">grant_type:</span> <span style="color:#f92672">&#34;authorization_code&#34;</span>,
+	<span style="color:#960050;background-color:#1e0010">code:</span> <span style="color:#f92672">&#34;this is authorizationCode&#34;</span>,
+	<span style="color:#960050;background-color:#1e0010">client_id:</span> <span style="color:#f92672">&#34;bundle id same value as in “aud” in” JWT above&#34;</span>,
+	<span style="color:#960050;background-color:#1e0010">client_secret:</span> <span style="color:#f92672">&#34;client secret generated for this app&#34;</span>
+}
+</code></pre></div><ol start="5">
+<li><strong>TokenResponse</strong> - response for <em>/token</em> is</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;access_token&#34;</span>: <span style="color:#e6db74">&#34;a5a45fnksdnfk83jflkasfksd98c29fdf1.1.pfsmo.bfd324145555r15&#34;</span>,
+    <span style="color:#f92672">&#34;token_type&#34;</span>: <span style="color:#e6db74">&#34;Bearer&#34;</span>,
+    <span style="color:#f92672">&#34;expires_in&#34;</span>: <span style="color:#ae81ff">3600</span>,
+    <span style="color:#f92672">&#34;refresh_token&#34;</span>: <span style="color:#e6db74">&#34;r7999999999d0485b85a0d6124124140.1.pfsmo.YFFFFFsadazJYjzw&#34;</span>,
+    <span style="color:#f92672">&#34;id_token&#34;</span>: <span style="color:#e6db74">&#34;JWT token&#34;</span>
+}
+</code></pre></div><p>Put your <code>id_token</code> again to <a href="https://jwt.io">jwt.io</a>  and decode - user values are same as in JWT from <code>ASAuthorizationAppleIDCredential</code>- things that are different are described above.  We can notice that there is no full name returned by the JWT, so we have to pass it from app.
+6. <strong>Register / login user</strong> - server needs to confirm with Apple <a href="https://appleid.apple.com/auth/keys">public key</a>  that JWT was created by them, and not injected in any way. Now we can create our user we have verified <em>email</em>, <em>userID</em> so everything we need.
+7. <strong>Establish user session</strong> - response returns our new user with accessToken and refreshToken.</p>
+<h3 id="nbsp-6"> </h3>
+<h2 id="-so-where-is-the-problem">🆒 so where is the problem?</h2>
+<p>As you may noticed I described register path, with register JWT but how does login JWT looks like?</p>
+<h4 id="payload-step-5">PAYLOAD STEP 5)</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;iss&#34;</span>: <span style="color:#e6db74">&#34;https://appleid.apple.com&#34;</span>,
+  <span style="color:#f92672">&#34;aud&#34;</span>: <span style="color:#e6db74">&#34;com.myapp.app&#34;</span>,
+  <span style="color:#f92672">&#34;exp&#34;</span>: <span style="color:#ae81ff">1571516802</span>,
+  <span style="color:#f92672">&#34;iat&#34;</span>: <span style="color:#ae81ff">1571516202</span>,
+  <span style="color:#f92672">&#34;sub&#34;</span>: <span style="color:#e6db74">&#34;222222.11111111111111111111111111111111.3334&#34;</span>,
+  <span style="color:#f92672">&#34;at_hash&#34;</span>: <span style="color:#e6db74">&#34;ArC1Y7-lPwAXGTrrAbciP1&#34;</span>,
+  <span style="color:#f92672">&#34;auth_time&#34;</span>: <span style="color:#ae81ff">1571516173</span>
+}
+</code></pre></div><h3 id="nbsp-7"> </h3>
+<h3 id="ok-so-where-is-the-email"><em>Ok so where is the email?</em></h3>
+<p>This is our problem, there is no <em>email</em> key in login flow. That means your API Service not only have to implement Apple version of OpenID Connect - main difference for us is no <a href="https://connect2id.com/products/server/docs/api/userinfo">/userinfo</a> endpoint. It’s not OpenID Connect compliant, you can check <a href="https://bitbucket.org/openid/connect/src/default/How-Sign-in-with-Apple-differs-from-OpenID-Connect.md">here</a> how it differs. If you are using email to <em>authenticate</em> a user, you may have a problem. Email shouldn’t be mandatory in your system and not only because you may have problem with SIWA, but if you are supporting other identity providers like Facebook, how do you behave if someone has created an account with his/her phone number?</p>
+<h3 id="nbsp-8"> </h3>
+<h3 id="summary">Summary</h3>
+<p>Why Sign In With Apple may be problematic? This article was published at 20th of October 2019 - and for that day apple wasn’t OpenID Connect compliant.  Email was only returned once during registration flow, if your API Service needs <em>email</em> to authenticate user you got a problem. Is it bad? I don’t think so - email shouldn’t be mandatory, Facebook may not return email as well if someone has created account using phone number. If you have to migrate start it now because <em>Apple Requiring New Apps and App Updates to Be Built With iOS 13 SDK Starting in April 2020</em> so the clock is ticking.</p>
+<h3 id="nbsp-9"> </h3>
+<p>List of helpful articles:
+<a href="https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple">What the Heck is Sign In with Apple? | Okta Developer</a>
+<a href="https://blog.curtisherbert.com/so-theyve-signed-in-with-apple-now-what/">So They’ve Signed in with Apple, Now What? — Curtis Herbert</a>
+<a href="https://dev.to/costerad/sign-in-with-apple-implementation-hurdles-761">“Sign in with Apple” implementation hurdles - DEV Community 👩‍💻👨‍💻</a> by @costerad
+<a href="https://auth0.com/blog/learn-how-to-implement-sign-in-with-apple-easily/?utm_source=dev&amp;utm_medium=sc&amp;utm_campaign=siwa_ga">How to Add Sign in with Apple to iOS Apps - Getting Started Guide</a> by @auth0</p>
+<h3 id="nbsp-10"> </h3>
+<p>Thanks!</p>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
