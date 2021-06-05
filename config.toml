@@ -1,3 +1,15 @@
-baseURL = "http://example.org/"
+baseURL = "https://rogowski.page/"
 languageCode = "en-us"
-title = "My New Hugo Site"
+title = "Michal Rogowski"
+theme = "almeida-cv"
+
+
+[params]
+colorDark = "#666"
+colorLight = "#fff"
+colorPageBackground = "#ddd"
+colorPrimary = "#6490e8"
+colorPrimaryText = "#fff"
+colorRightColumnBackground = "#f5f5f5"
+colorSecondary = "#aaa"
+pages = 1

@@ -1,0 +1,91 @@
+BasicInfo:
+  FirstName: Michal
+  LastName: Rogowski
+  Photo: img/avatar.jpg
+  Contacts:
+    - Icon: fas fa-phone
+      Info: +48 602 466 686
+    - Icon: fas fa-envelope
+      Info: michrogowski@gmail.com
+    - Icon: fas fa-globe
+      Info: rogowski.page
+    - Icon: fas fa-map-marker-alt
+      Info: Poland
+
+Profile: I spend most of my free time on personal growth. Currently, I’m developing a side project which is a video analytic framework based on machine learning - I have a basic understanding of artificial neural networks. I am also writing posts on my blog. I am a team player, I see my success in the success of others, I can adapt myself to changing circumstances and navigate teams accordingly. I love data-driven culture and I’m a big fan of the COACHING for LEADERS podcast.
+
+
+Experience:
+  - Employer: YouGov (https://today.yougov.com)
+    Place: Poland/UK/US
+    Positions:
+      - Title: Engineering Manager
+        Date: March 2020 - Present
+        Details: I am owning technical solutions and delivery within my team. I make sure we achieve our roadmap on time and advice the team on finding a balance between technology and business needs. I was co-creating and rolling out career ladder for our engineers, organising remote YouGov Dev-summit, making our hackathons more innovative, automating our onboarding, and improving performance review processes. I make sure technology strategy meets product development. Next thing is to track the carrier progress of 13 individual engineers from my team, helping them grow and achieve success through weekly one-on-one meetings. One of the achievements I am most proud of is making the inclusive design part of our designing and development process across the company.
+        Badges: ['1&1 meetings', 'Feedback', 'Architecture', 'Prioritise', 'OpenID Connect', 'Delegate', 'Python']
+      - Title: Mobile Team Leader
+        Date: Mar 2019 - Mar 2020
+        Details: I lead all technical aspects of the mobile team. I was responsible for uniting my team with a common goal for example by bi-weekly one-on-ones. I collaborated with our product manager based in London to map all business requirements into functional apps. During this period we published redesigned iOS and Android apps for our users. Rating of those apps improved by 2.6 stars since then.
+        Badges: ['iOS', 'Android', '1&1 meetings', 'Protocol-Oriented Programming', 'Clean Architecture', 'UI Tests (Robot Pattern)', 'iOS Coordinators pattern']
+  - Employer: magicJack (http://www.magicjack.com)
+    Place: Poland/US
+    Positions:
+      - Title: iOS Team Leader
+        Date: Oct 2018 - Mar 2019
+        Details: I supervised the work of the iOS team. My primary goal was to meet the deadline for our main products. One of them was a replacement app for the "old" application that has supported hundreds of thousands of paying users. We finished in time and we were in open Beta for 10 000 users. The feedback was very positive. I was also responsible for coordinating the collaboration between iOS, Android and backend teams. Unfortunately, operations in Poland were closed and my contract terminated.
+        Badges: ['iOS Modular architecture', 'MVVM design pattern', 'Prioritise', 'OpenID Connect', 'Delegate', 'Python']
+      - Title: iOS Developer
+        Date: Dec 2017 - Oct 2018
+        Details: I maintained and refactored our applications for VoIP services. Furthermore, I was designing and creating modular architecture for our new applications focused on personal and business clients. I also had a chance to run scrum meetings.
+        Badges: ['iOS', 'PJSIP', 'CI/CD', 'Unit Tests', 'Dependency Injection']
+  - Employer: Mobile Five (https://mobile-5.com)
+    Place: Poland/UK
+    Positions:
+      - Title: iOS Developer
+        Date: Mar 2016 - Dec 2017
+        Details: I was leading projects, coordinated and supervised the work of both Android and iOS teams. We worked in scrum methodology. We were creating apps for clients as prominent as Stagecoach and Gatwick airport. I was co-responsible for UI tests integration in our development process.
+        Badges: ['iOS', 'SOLID', 'Testing', 'Jira', 'Creating Games']
+  - Employer: Ragnak Software House
+    Place: Poland/UK
+    Positions:
+      - Title: iOS Developer
+        Date: Jul 2013 - Mar 2016
+        Details: I started as a junior iOS developer, but as the company’s grown, I was given more responsibilities. I helped to coordinate and supervise the work of the iOS team. My duties included estimating and delegating tasks among other iOS developers.
+        Badges: ['iOS', 'Integrating with API', 'Constraints']
+Education:
+  - Course: Bachelor of Computer Science
+    Place: Gdansk University of Technology        
+
+Skills:
+  - Family: Hard Skills
+    Items:
+      - Swift (iOS)      
+      - Architecting solutions
+      - OpenID Connect / OAuth 2.0
+      - Docker
+      - Python
+      - Static Site Generators      
+      - CI/CD
+      - Git
+  - Family: Soft Skills
+    Items:
+      - Being proactive
+      - Delegating
+      - Running 1&1 meetings
+      - Prioritising and coordinating effectively
+      - Coaching
+      - Balancing technical risk with organisational goals
+      - Being a key stakeholder in a recruitment process
+      - Being innovative      
+
+Languages:
+  - Name: Polish
+    Level: Native
+  - Name: English
+    Level: C2
+
+Interests:
+  - Basketball
+  - Design
+  - Martial Arts
+  - Being a dad
