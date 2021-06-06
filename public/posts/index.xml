@@ -6,7 +6,16 @@
     <description>Recent content in Posts on Michal Rogowski</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 06 Jun 2021 12:12:07 +0200</lastBuildDate><atom:link href="https://rogowski.page/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 06 Jun 2021 12:23:53 +0200</lastBuildDate><atom:link href="https://rogowski.page/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Personal CV Page</title>
+      <link>https://rogowski.page/posts/personal-page/</link>
+      <pubDate>Sun, 06 Jun 2021 12:23:53 +0200</pubDate>
+      
+      <guid>https://rogowski.page/posts/personal-page/</guid>
+      <description>Given While I was working on my small macOS app called Exposure Adjustor I forgot that to upload it to the App Store I have to provide a Support URL and Marketing URL. Till now it wasn&amp;rsquo;t a problem all of the apps that I&amp;rsquo;ve published were done for big companies that already had a website. The app allows you to lock the exposure of your camera to make sure that your face is visible even if there is direct sun or window behind you.</description>
+    </item>
+    
     <item>
       <title>Swift Memory Management and Performance</title>
       <link>https://rogowski.page/posts/swift-memory-managment/</link>
