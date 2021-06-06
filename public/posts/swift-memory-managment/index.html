@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michal Rogowski</title>
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    
+    <link rel="stylesheet" href="https://rogowski.page/style.main.min.f111cde60c1526084f36843b1c30cbcd7a113c5f734df1714cab4d766b8ec1f4.css" integrity="sha256-8RHN5gwVJghPNoQ7HDDLzXoRPF9zTfFxTKtNdmuOwfQ=" >
+</head>
+<body>
+    <div class="page">     
+        <h1 class="mainHeading">
+            <a href="https://rogowski.page/">
+                <span>Home</span>
+            </a>
+        </h1>
+        <div class="section__heading">
+            <h2 class="section__title">Swift Memory Management and Performance</h2>
+        </div>
+        <div class="post_body">
+            <h3 id="nbsp"> </h3>
+<p>As part of recruitment processes one of the most common questions is: “What is the difference between struct and class”, we usually can hear that <code>class</code> is copied by reference and <code>struct</code> by value. But what does it even mean? Let’s start with general introduction to Memory Management</p>
+<h3 id="nbsp-1"> </h3>
+<h2 id="what-is-memory">What is memory?</h2>
+<p>We can try to imagine memory as array of cells, each cell contains an information. Typically size of this information is one byte (e.g. bin: 01100101, hex: 0x65), each cell is associated with address which allows us to write or read value from this particular address. Assuming our app is using 20 Megabytes, we have to use 20 000 000 cells, and each cell contains 8 bits.</p>
+<h3 id="nbsp-2"> </h3>
+<p><img src="https://thepracticaldev.s3.amazonaws.com/i/6trslmp1uakwcap7hf5b.png" alt="Memory visualisation"></p>
+<h3 id="nbsp-3"> </h3>
+<p>On the picture above, on the left there is the address and on the right is the value associated with this address. But what happens when value we want to store is bigger than size of one cell?</p>
+<h3 id="nbsp-4"> </h3>
+<h3 id="little-endian-vs-big-endian">Little-endian vs Big-endian</h3>
+<p>The purpose of both of those terms is to decide in which order bytes are stored in memory. Big-endian stores most significant value at the lowest storage address, little-endian is doing the opposite. Let’s take a look at this examples:</p>
+<h3 id="nbsp-5"> </h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">decimalValue: Int16 <span style="color:#f92672">=</span> <span style="color:#ae81ff">20306</span>
+</code></pre></div><p>The binary value of this Integer is <code>100111101010010</code>
+So let’s split those bits by size of our cells which is 1 byte.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">firstPart <span style="color:#f92672">=</span> <span style="color:#ae81ff">01001111</span>
+secondPart <span style="color:#f92672">=</span> <span style="color:#ae81ff">01010010</span>
+</code></pre></div><h3 id="nbsp-6"> </h3>
+<p>We need two cells, to allocate this value in memory.</p>
+<h3 id="nbsp-7"> </h3>
+<h3 id="big-endian">Big-endian</h3>
+<p><img src="https://thepracticaldev.s3.amazonaws.com/i/zarlh8k12sy9nmructbz.png" alt="Alt Text"></p>
+<h3 id="nbsp-8"> </h3>
+<h3 id="little-endian">Little-endian</h3>
+<p><img src="https://thepracticaldev.s3.amazonaws.com/i/wg1gsvh61itf5x10640s.png" alt="Alt Text"></p>
+<h3 id="nbsp-9"> </h3>
+<p>As you can see Big-endian seems more natural for people who read left to right but the problem is with increasing a number, when number growths in binary system, numbers are added to the left side.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">bin: <span style="color:#ae81ff">1111</span> <span style="color:#f92672">==</span> dec: <span style="color:#ae81ff">15</span>
+bin: <span style="color:#ae81ff">0001</span> <span style="color:#ae81ff">1111</span> <span style="color:#f92672">==</span> dec: <span style="color:#ae81ff">31</span>
+</code></pre></div><h3 id="nbsp-10"> </h3>
+<p>So if our number growths in memory, in Big-endian notation we would have to rewrite all addresses values, in Little-endian we would just append it at the end.</p>
+<h3 id="nbsp-11"> </h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ae81ff">1</span>) decimalValue <span style="color:#f92672">=</span> <span style="color:#ae81ff">255</span> <span style="color:#f92672">//</span>bin: <span style="color:#ae81ff">1111</span> <span style="color:#ae81ff">1111</span>
+<span style="color:#ae81ff">2</span>) decimalValue <span style="color:#f92672">+=</span> <span style="color:#ae81ff">256</span> <span style="color:#f92672">//</span> bin: <span style="color:#ae81ff">0000</span> <span style="color:#ae81ff">0001</span> <span style="color:#ae81ff">1111</span> <span style="color:#ae81ff">1111</span> dec: <span style="color:#ae81ff">511</span>
+</code></pre></div><h3 id="nbsp-12"> </h3>
+<ol>
+<li></li>
+</ol>
+<p><img src="https://thepracticaldev.s3.amazonaws.com/i/ugjops6toam784l3uo06.png" alt="Alt Text"></p>
+<h3 id="nbsp-13"> </h3>
+<h3 id="big-endian-1">Big-endian</h3>
+<ol start="2">
+<li></li>
+</ol>
+<p><img src="https://thepracticaldev.s3.amazonaws.com/i/7iykq3q15fs9t80gyddo.png" alt="Alt Text"></p>
+<h3 id="nbsp-14"> </h3>
+<p>As you can see the value from memory address <code>0x0000000112856f55</code> was rewritten to <code>0x0000000112856f56</code></p>
+<h3 id="nbsp-15"> </h3>
+<h3 id="little-endian-1">Little-endian</h3>
+<ol start="2">
+<li></li>
+</ol>
+<p><img src="https://thepracticaldev.s3.amazonaws.com/i/b8vgznzl1289hqlu54w0.png" alt="Alt Text"></p>
+<h3 id="nbsp-16"> </h3>
+<p>New value was assigned at the end (new memory address)</p>
+<h3 id="nbsp-17"> </h3>
+<h1 id="why-do-i-care-swift-vs-bits">Why do I care? Swift vs bits</h1>
+<p>You will seldom have to know the difference between Big-endian and Little-endian, or even understand how memory looks like. But if you’d like to grow as a developer and understand how things work under the hood - continue reading.</p>
+<h3 id="nbsp-18"> </h3>
+<h2 id="xcode-and-memory-viewer">Xcode and Memory Viewer</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Foundation</span>
+<span style="color:#66d9ef">var</span> helloWorld = <span style="color:#960050;background-color:#1e0010">“</span>Hello, World!<span style="color:#960050;background-color:#1e0010">”</span>
+withUnsafePointer(to: &amp;helloWorld) { print($0) }
+print(helloWorld)
+</code></pre></div><h3 id="nbsp-19"> </h3>
+<p>Let’s put a breakpoint on print, when the breakpoints fires, we can activate memory viewer in Xcode! (Yes it exists ❤️) , when execution is paused on breakpoint just go to Debug -&gt; Debug Workflow -&gt; View Memory.</p>
+<h3 id="nbsp-20"> </h3>
+<p>In our console we can see printed hexadecimal memory address, thanks to it we know address of memory we want to show in our viewer, just paste address and press enter.</p>
+<h3 id="nbsp-21"> </h3>
+<p><img src="https://thepracticaldev.s3.amazonaws.com/i/5x9k9euywa5sjj09fvnw.png" alt="Memory Viewer">
+Now we can check how is it stored on my Mac!
+In the left column we can see the addresses of the first cells in each row written in hexadecimal, we can change it to decimal by tapping on left column.</p>
+<h3 id="nbsp-22"> </h3>
+<p>In the center there are cells with their values. Each cell value is one Byte, so value stored under address 0x100002060 is 48 hexadecimal, which means character H, because this string is encoded in UTF-8 whose representation is the same as ASCII for Latin alphabet, here is simple <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/ASCII-Table-wide.svg/2880px-ASCII-Table-wide.svg.png">Ascii table</a> - representing values associated with characters, if you’d like to know more about ascii, encoding and decoding please let me know!</p>
+<h3 id="nbsp-23"> </h3>
+<p>In the right column we can see preview of memory <code>Hello, World!í</code> this is our value displayed in preview.</p>
+<h3 id="nbsp-24"> </h3>
+<p>There are few questions that comes to mind:</p>
+<h3 id="nbsp-25"> </h3>
+<ul>
+<li>Is it Big-endian or Little-endian?
+It is Little-endian, just replace the string value with 511 from example above and compare results, value is also hexadecimal, we would expect that value is <code>FF 01</code> It’s hard to debug it on characters, because ascii strings are <code>arrays</code> of single byte values, that’s why endianness does not affect the order.</li>
+</ul>
+<h3 id="nbsp-26"> </h3>
+<ul>
+<li>What is this special character, and why is it prefixed with 2 bytes of 0x00?</li>
+<li>My system is 64 bits so size of this string is not 13 bytes, even if it only contains 13 characters, it’s 2*8 bytes, last byte has a special value to indicate end of string.</li>
+</ul>
+<h3 id="nbsp-27"> </h3>
+<p>We can easily check size of this string by running</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">print(MemoryLayout.size(ofValue: helloWorld)) <span style="color:#75715e">//prints 16</span>
+</code></pre></div><h3 id="nbsp-28"> </h3>
+<h2 id="copy-by-reference">Copy by reference</h2>
+<p>Look at this example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#75715e">//</span>
+<span style="color:#75715e">//  Created by Michał Rogowski on 27/09/2019.</span>
+<span style="color:#75715e">//</span>
+
+<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Foundation</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestClassByReference</span> {
+    <span style="color:#66d9ef">var</span> value1 = <span style="color:#960050;background-color:#1e0010">“</span>test<span style="color:#960050;background-color:#1e0010">”</span>
+    <span style="color:#66d9ef">var</span> value2 = <span style="color:#960050;background-color:#1e0010">“</span>test2<span style="color:#960050;background-color:#1e0010">”</span>
+    <span style="color:#66d9ef">var</span> value3 = <span style="color:#960050;background-color:#1e0010">“</span>test3<span style="color:#960050;background-color:#1e0010">”</span>
+    <span style="color:#66d9ef">var</span> value4 = <span style="color:#960050;background-color:#1e0010">“</span>test4<span style="color:#960050;background-color:#1e0010">”</span>
+    <span style="color:#66d9ef">var</span> value5 = <span style="color:#960050;background-color:#1e0010">“</span>test5<span style="color:#960050;background-color:#1e0010">”</span>
+    <span style="color:#66d9ef">var</span> value6 = <span style="color:#960050;background-color:#1e0010">“</span>test6<span style="color:#960050;background-color:#1e0010">”</span>
+    
+    <span style="color:#66d9ef">var</span> address: UnsafeMutableRawPointer {
+        <span style="color:#66d9ef">return</span> Unmanaged.passUnretained(<span style="color:#66d9ef">self</span>).toOpaque()
+    }
+}
+
+<span style="color:#66d9ef">var</span> testObject = TestClassByReference()
+<span style="color:#66d9ef">var</span> copyTestObject = testObject
+
+print(<span style="color:#960050;background-color:#1e0010">“</span>testObject:<span style="color:#960050;background-color:#1e0010">”</span>)
+print(testObject.address)
+print(<span style="color:#960050;background-color:#1e0010">“</span>copyTestObject:<span style="color:#960050;background-color:#1e0010">”</span>)
+print(copyTestObject.address)
+copyTestObject.value1 = <span style="color:#960050;background-color:#1e0010">“</span>change<span style="color:#960050;background-color:#1e0010">”</span>
+print(<span style="color:#960050;background-color:#1e0010">“</span>testObject address after change:<span style="color:#960050;background-color:#1e0010">”</span>)
+print(testObject.address)
+print(<span style="color:#960050;background-color:#1e0010">“</span>copyTestObject address after change:<span style="color:#960050;background-color:#1e0010">”</span>)
+print(copyTestObject.address)
+
+print(testObject)
+</code></pre></div><h3 id="nbsp-29"> </h3>
+<p>We should add two break points, on <code>copyTestObject.value1 = “change”</code> and on last print.</p>
+<h3 id="nbsp-30"> </h3>
+<p>On first breakpoint we can notice that two addresses are the same, so jump to memory viewer!
+<img src="https://thepracticaldev.s3.amazonaws.com/i/1xyj7a5woa5x5o7saoky.png" alt="Memory View reference.1">
+On the right column, our properties values are visible (test, test2, test3 etc.), now we can continue program execution, address of variables did not change, so we can move to memory viewer again.
+<img src="https://thepracticaldev.s3.amazonaws.com/i/qc9p63y0n55itf52gla9.png" alt="Memory View reference.2">
+Value <code>test</code> was changed and the memory reflects that by presenting a new string value in a place of previous one! Both instances point to same address - share a single copy of data. This explains the first category of instances types supported by Swift which is Reference Type.</p>
+<h3 id="nbsp-31"> </h3>
+<h2 id="copy-on-write">Copy-on-Write</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#75715e">//</span>
+<span style="color:#75715e">//  Created by Michał Rogowski on 27/09/2019.</span>
+<span style="color:#75715e">//</span>
+
+<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Foundation</span>
+
+<span style="color:#66d9ef">extension</span> <span style="color:#a6e22e">Array</span> <span style="color:#66d9ef">where</span> Element == String {
+    <span style="color:#66d9ef">var</span> address: UnsafePointer&lt;String&gt;? {
+        withUnsafeBufferPointer { $0.baseAddress }
+    }
+}
+
+
+<span style="color:#66d9ef">var</span> testObject = [<span style="color:#960050;background-color:#1e0010">“</span>test<span style="color:#960050;background-color:#1e0010">”</span>, <span style="color:#960050;background-color:#1e0010">“</span>test2<span style="color:#960050;background-color:#1e0010">”</span>, <span style="color:#960050;background-color:#1e0010">“</span>test3<span style="color:#960050;background-color:#1e0010">”</span>, <span style="color:#960050;background-color:#1e0010">“</span>test4<span style="color:#960050;background-color:#1e0010">”</span>, <span style="color:#960050;background-color:#1e0010">“</span>test5<span style="color:#960050;background-color:#1e0010">”</span>, <span style="color:#960050;background-color:#1e0010">“</span>test6<span style="color:#960050;background-color:#1e0010">”</span>]
+<span style="color:#66d9ef">var</span> copyTestObject = testObject
+
+print(<span style="color:#960050;background-color:#1e0010">“</span>testObject:<span style="color:#960050;background-color:#1e0010">”</span>)
+print(testObject.address)
+print(<span style="color:#960050;background-color:#1e0010">“</span>copyTestObject:<span style="color:#960050;background-color:#1e0010">”</span>)
+print(copyTestObject.address)
+copyTestObject[<span style="color:#ae81ff">0</span>] = <span style="color:#960050;background-color:#1e0010">“</span>change<span style="color:#960050;background-color:#1e0010">”</span>
+print(<span style="color:#960050;background-color:#1e0010">“</span>testObject address after change:<span style="color:#960050;background-color:#1e0010">”</span>)
+print(testObject.address)
+print(<span style="color:#960050;background-color:#1e0010">“</span>copyTestObject address after change:<span style="color:#960050;background-color:#1e0010">”</span>)
+print(copyTestObject.address)
+
+print(testObject)
+</code></pre></div><h3 id="nbsp-32"> </h3>
+<p>Now we can debug it step by step, compare the addresses of both arrays before changing value in our copy. Addresses are the same, but what happens after our change.
+<img src="https://thepracticaldev.s3.amazonaws.com/i/nxwgqvhlwuhs7sysqy2t.png" alt="Copy on write before">
+<img src="https://thepracticaldev.s3.amazonaws.com/i/m2ibi3nhaz4qaxtkrllq.png" alt="Copy on write after">
+Address was changed and whole array was rewritten.
+We have to notice that Copy-on-Write is only implemented for certain types, for example Arrays. If you’d like to use it for your structures-to optimise memory, you would have to create value wrapper, as described by <a href="https://github.com/apple/swift/blob/master/docs/OptimizationTips.rst#advice-use-copy-on-write-semantics-for-large-values">Apple Here</a></p>
+<h3 id="nbsp-33"> </h3>
+<h2 id="copy-by-value">Copy by value</h2>
+<p>Second category that is supported by Swift are Value Types. That means each instance keeps unique memory location for its data. Take a look</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#75715e">//</span>
+<span style="color:#75715e">//  Created by Michał Rogowski on 27/09/2019.</span>
+<span style="color:#75715e">//</span>
+
+<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Foundation</span>
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">MyStruct</span> {
+    <span style="color:#66d9ef">let</span> value = <span style="color:#ae81ff">5</span>
+}
+
+<span style="color:#66d9ef">var</span> firstStruct = MyStruct()
+<span style="color:#66d9ef">var</span> copyStruct = firstStruct
+
+withUnsafePointer(to: &amp;firstStruct) { print($0) } <span style="color:#75715e">//print 0x00000001000040b0</span>
+withUnsafePointer(to: &amp;copyStruct) { print($0) } <span style="color:#75715e">//print 0x00000001000040b8</span>
+</code></pre></div><p>Both properties have different addresses since the begging, in this case the memory addresses are allocated by 8 Bytes (Because of 64-bit system).
+As you can read in Swift Documentation:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#75715e">/// A signed integer value type.</span>
+<span style="color:#75715e">///</span>
+<span style="color:#75715e">/// On 32-bit platforms, `Int` is the same size as `Int32`, and</span>
+<span style="color:#75715e">/// on 64-bit platforms, `Int` is the same size as `Int64`.</span>
+</code></pre></div><p>Why should we waste 8 bytes for variable that needs only 1 byte? What would happen if we change default Int in our structure to <code>Int8</code>? Change declaration of <code>Int</code> in MyStruct</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">MyStruct</span> {
+    <span style="color:#66d9ef">let</span> value: Int8 = <span style="color:#ae81ff">5</span>
+}
+</code></pre></div><p>And those are allocated addresses for this two structs:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ae81ff">0x0000000100004088</span>
+<span style="color:#ae81ff">0x0000000100004089</span>
+</code></pre></div><p>Now the difference between addresses is only 1 Byte. We were able to free 7 bytes of memory per instance of <code>MyStruct</code> just by changing declaration to <code>Int8</code>, on the other hand you have to be careful to choose correct size because <em>integer overflow</em> may cause unintended behaviour.</p>
+<h3 id="nbsp-34"> </h3>
+<p><em>Value Types</em> are usually defines as a <code>struct</code>, <code>enum</code>, or <code>tuple</code> (<code>Int</code> in Swift is also a Struct).</p>
+<h3 id="nbsp-35"> </h3>
+<h2 id="in-out-parameters">In-Out Parameters</h2>
+<p>We can think about memory efficiency not only by allocating one Byte integers instead of eight Byte, but there is also <code>In-Out Parameter</code>
+As Swift documentations states <a href="https://docs.swift.org/swift-book/ReferenceManual/Declarations.html#ID545">Here</a>:
+<em>In-out parameters are passed as follows:</em>
+<em>1. When the function is called, the value of the argument is copied.</em>
+<em>2. In the body of the function, the copy is modified.</em>
+<em>3. When the function returns, the copy’s value is assigned to the original argument.</em>
+<em>This behaviour is known as copy-in copy-out or call by value result.</em></p>
+<h3 id="nbsp-36"> </h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">InoutStruct</span> {
+    <span style="color:#66d9ef">var</span> value = <span style="color:#960050;background-color:#1e0010">“</span>test<span style="color:#960050;background-color:#1e0010">”</span>
+    
+    <span style="color:#66d9ef">mutating</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">printAddress</span>() {
+        withUnsafePointer(to: &amp;<span style="color:#66d9ef">self</span>) { print(<span style="color:#960050;background-color:#1e0010">“</span>address = <span style="color:#960050;background-color:#1e0010">\</span>($0)<span style="color:#960050;background-color:#1e0010">”</span>) }
+    }
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">addTestInout</span>(to inoutStruct: <span style="color:#66d9ef">inout</span> InoutStruct) {
+    inoutStruct.value <span style="color:#f92672">+=</span> <span style="color:#960050;background-color:#1e0010">“</span> test<span style="color:#960050;background-color:#1e0010">”</span>
+    inoutStruct.printAddress()
+}
+
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">addTest</span>(to normalStruct: InoutStruct) -&gt; InoutStruct {
+    <span style="color:#66d9ef">var</span> inoutStructCopy = normalStruct
+    inoutStructCopy.value <span style="color:#f92672">+=</span> <span style="color:#960050;background-color:#1e0010">“</span> test<span style="color:#960050;background-color:#1e0010">”</span>
+    inoutStructCopy.printAddress()
+    <span style="color:#66d9ef">return</span> inoutStructCopy
+}
+
+<span style="color:#66d9ef">var</span> inoutStruct = InoutStruct()
+<span style="color:#66d9ef">var</span> normalStruct = InoutStruct()
+
+inoutStruct.printAddress() <span style="color:#75715e">//0x0000000100003090</span>
+normalStruct.printAddress() <span style="color:#75715e">//0x00000001000030a0</span>
+
+addTestInout(to: &amp;inoutStruct) <span style="color:#75715e">//0x0000000100003090</span>
+normalStruct = addTest(to: normalStruct) <span style="color:#75715e">//0x00007ffeefbff270</span>
+
+inoutStruct.printAddress() <span style="color:#75715e">//0x0000000100003090</span>
+normalStruct.printAddress() <span style="color:#75715e">//0x00000001000030a0</span>
+</code></pre></div><h3 id="nbsp-37"> </h3>
+<p>We’ve done the “same” operation twice to separate instances of <code>InoutStruct</code>, if you go through Memory View, you can check that, in the memory we have 3 instances of <code>InoutStruct</code>. One of those is variable inoutStructCopy. It’s clear now that, <code>inout</code> parameter is memory efficient if we want to change instance that is <code>Value Type</code> in function. There is no extra rewrite, which means you wan’t have to waste time and memory when changing really big <code>Value Type</code> instances.</p>
+<h3 id="nbsp-38"> </h3>
+<p>Thanks!</p>
+
+        </div>
+    </div>
+</body>
+</html>

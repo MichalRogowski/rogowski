@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Michal Rogowski</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 05 Jun 2021 23:33:38 +0200</lastBuildDate><atom:link href="https://rogowski.page/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 06 Jun 2021 12:12:07 +0200</lastBuildDate><atom:link href="https://rogowski.page/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Swift Memory Management and Performance</title>
+      <link>https://rogowski.page/posts/swift-memory-managment/</link>
+      <pubDate>Sun, 06 Jun 2021 12:12:07 +0200</pubDate>
+      
+      <guid>https://rogowski.page/posts/swift-memory-managment/</guid>
+      <description>As part of recruitment processes one of the most common questions is: “What is the difference between struct and class”, we usually can hear that class is copied by reference and struct by value. But what does it even mean? Let’s start with general introduction to Memory Management
+ What is memory? We can try to imagine memory as array of cells, each cell contains an information. Typically size of this information is one byte (e.</description>
+    </item>
+    
     <item>
       <title>Why sign-in with apple may take you more than 5 minutes and how it works?</title>
       <link>https://rogowski.page/posts/sign-in-with-apple/</link>
