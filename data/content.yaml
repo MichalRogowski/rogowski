@@ -4,17 +4,20 @@ BasicInfo:
   Photo: img/avatar.jpg
   Contacts:
     - Icon: fas fa-phone
-      Info: +48 602 466 686
+      Info: +48 602 466 686      
     - Icon: fas fa-envelope
       Info: michrogowski@gmail.com
     - Icon: fas fa-globe
       Info: rogowski.page
+      Link: https://rogowski.page
     - Icon: fas fa-map-marker-alt
       Info: Poland
     - Icon: fab fa-linkedin-in
       Info: linkedin.com/in/rogowski-michal/
+      Link: https://linkedin.com/in/rogowski-michal/
     - Icon: fab fa-github
       Info: github.com/MichalRogowski
+      Link: https://github.com/MichalRogowski
 
 Profile: I spend most of my free time on personal growth. Currently, I’m developing a side project which is a video analytic framework based on machine learning - I have a basic understanding of artificial neural networks. I am also writing posts on my blog. I am a team player, I see my success in the success of others, I can adapt myself to changing circumstances and navigate teams accordingly. I love data-driven culture and I’m a big fan of the COACHING for LEADERS podcast.
 
