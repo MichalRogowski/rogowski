@@ -16,7 +16,7 @@ Profile: I spend most of my free time on personal growth. Currently, I’m devel
 
 
 Experience:
-  - Employer: YouGov (https://today.yougov.com)
+  - Employer: YouGov - today.yougov.com
     Place: Poland/UK/US
     Positions:
       - Title: Engineering Manager
@@ -27,7 +27,7 @@ Experience:
         Date: Mar 2019 - Mar 2020
         Details: I lead all technical aspects of the mobile team. I was responsible for uniting my team with a common goal for example by bi-weekly one-on-ones. I collaborated with our product manager based in London to map all business requirements into functional apps. During this period we published redesigned iOS and Android apps for our users. Rating of those apps improved by 2.6 stars since then.
         Badges: ['iOS', 'Android', '1&1 meetings', 'Protocol-Oriented Programming', 'Clean Architecture', 'UI Tests (Robot Pattern)', 'iOS Coordinators pattern']
-  - Employer: magicJack (http://www.magicjack.com)
+  - Employer: magicJack - magicjack.com
     Place: Poland/US
     Positions:
       - Title: iOS Team Leader
@@ -38,7 +38,7 @@ Experience:
         Date: Dec 2017 - Oct 2018
         Details: I maintained and refactored our applications for VoIP services. Furthermore, I was designing and creating modular architecture for our new applications focused on personal and business clients. I also had a chance to run scrum meetings.
         Badges: ['iOS', 'PJSIP', 'CI/CD', 'Unit Tests', 'Dependency Injection']
-  - Employer: Mobile Five (https://mobile-5.com)
+  - Employer: Mobile Five - mobile-5.com
     Place: Poland/UK
     Positions:
       - Title: iOS Developer
