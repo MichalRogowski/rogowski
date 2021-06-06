@@ -10,6 +10,7 @@ BTW! If you like my articles please follow me on [Twitter](https://twitter.com/m
 ### &nbsp; 
 ## Sign In With Apple 🍏 (SIWA) 
 UML diagram below shows register / login flow
+### &nbsp; 
 ![SIWA-UML](https://thepracticaldev.s3.amazonaws.com/i/tnslve4034o1py47ha08.jpg)
 1. **SIWA button register / login** - Most important part of request is scope. For test purposes I’ve added email and full name to scope. When pressing button for the first time user is able to decide, does he want to use real email, or “fake” which will forward all messages to and from user.
 2. **ASAuthorizationAppleIDCredential** - Apple [Documentation](https://developer.apple.com/documentation/authenticationservices/asauthorizationappleidcredential)  describes it as *A credential that results from a successful Apple ID authentication.* You can also check all fields that are returned. Most important for us are:
