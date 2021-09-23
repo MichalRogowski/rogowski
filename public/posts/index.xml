@@ -13,7 +13,7 @@
       <pubDate>Sun, 06 Jun 2021 12:23:53 +0200</pubDate>
       
       <guid>https://rogowski.page/posts/personal-page/</guid>
-      <description>Given While I was working on my small macOS app called Exposure Adjustor I forgot that to upload it to the App Store I have to provide a Support URL and Marketing URL. Till now it wasn&amp;rsquo;t a problem all of the apps that I&amp;rsquo;ve published were done for big companies that already had a website. The app allows you to lock the exposure of your camera to make sure that your face is visible even if there is direct sun or window behind you.</description>
+      <description>Given While I was working on my macOS app Exposure Adjustor. I forgot that in order to upload it to the App Store I have to provide a Support URL, Marketing URL and Privacy Policy URL. Till now it wasn&amp;rsquo;t a problem all of the apps that I&amp;rsquo;ve published were done for big companies that already had a website legal notes etc. The Exposure Adjustor allows you to lock the exposure of your camera to make sure that your face is visible even if there is direct sun or window behind you.</description>
     </item>
     
     <item>
@@ -44,6 +44,18 @@
       <guid>https://rogowski.page/posts/grow-as-professional/</guid>
       <description>When I stared my journey as an iOS Developer, it was super easy to find things to learn - to be honest it was hard to find things I knew and I felt confident about. Nonetheless after a year or two there came a dangerous moment of routine: my level of knowledge let me do my job and give a phoney 😱 feeling of being a professional.
 Luckily for me a wake-up call came when I was talking with some other iOS Developer and he started to talk about things that I should be familiar with - but I didn’t have a clue what he was talking about.</description>
+    </item>
+    
+    <item>
+      <title>Privacy Policy</title>
+      <link>https://rogowski.page/posts/privacy-policy/</link>
+      <pubDate>Tue, 09 Jun 2020 07:41:14 +0200</pubDate>
+      
+      <guid>https://rogowski.page/posts/privacy-policy/</guid>
+      <description>Privacy Policy
+Michal Rogowski built the Exposure Adjustor app as a Commercial app. This SERVICE is provided by Michal Rogowski and is intended for use as is.
+This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.
+If you choose to use my Service, then you agree to the collection and use of information in relation to this policy.</description>
     </item>
     
   </channel>
