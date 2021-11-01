@@ -3,17 +3,22 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://rogowski.page/</loc>
-    <lastmod>2021-06-06T12:23:53+02:00</lastmod>
+    <loc>https://rogowski.page/posts/cvs-absurd/</loc>
+    <lastmod>2021-10-31T11:27:26+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://rogowski.page/posts/personal-page/</loc>
-    <lastmod>2021-06-06T12:23:53+02:00</lastmod>
+    <loc>https://rogowski.page/</loc>
+    <lastmod>2021-10-31T11:27:26+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://rogowski.page/posts/</loc>
+    <lastmod>2021-10-31T11:27:26+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rogowski.page/posts/personal-page/</loc>
     <lastmod>2021-06-06T12:23:53+02:00</lastmod>
   </url>
   
